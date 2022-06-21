@@ -71,6 +71,8 @@ jobs:
 
     - name: Move into Terraform directory
       run: cd terraform
+      run: pwd
+      run: ls -l
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
