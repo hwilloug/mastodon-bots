@@ -68,10 +68,14 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+  
+    - name: What directory am i in
+      run: pwd
 
     - name: Move into Terraform directory
       run: cd terraform
-      run: pwd
+
+    - name: What's in here?
       run: ls -l
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
