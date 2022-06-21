@@ -1,3 +1,17 @@
+terraform {
+    required_providers {
+        aws = {
+            source = "hasicorp/aws"
+            version = "-> 3.27"
+        }
+    }
+}
+
+provider aws {
+  region  = "us-east-2"
+  profile = "default"
+}
+
 resource aws_aim_role iam_for_lambda {
     name = "iam_for_lambda"
 
