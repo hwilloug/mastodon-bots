@@ -1,23 +1,23 @@
 terraform {
-    required_providers {
-        aws = {
-            source = "hashicorp/aws"
-            version = ">= 4.19"
-        }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.19"
     }
+  }
 
-    required_version = ">= 1.2.0"
+  required_version = ">= 1.2.0"
 }
 
-provider aws {
+provider "aws" {
   region  = "us-east-2"
   profile = "default"
 }
 
-resource aws_aim_role iam_for_lambda {
-    name = "iam_for_lambda"
+resource "aws_aim_role" "iam_for_lambda" {
+  name = "iam_for_lambda"
 
-    assume_role_policy = <<EOF
+  assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -32,13 +32,13 @@ resource aws_aim_role iam_for_lambda {
     EOF
 }
 
-resource aws_lambda_function test_lambda {
-    function_name = "lambda_function_name"
-    role          = aws_aim_role.iam_for_lambda.arn
-    
-    environment {
-        variables = {
-            foo = "bar"
-        }
+resource "aws_lambda_function" "test_lambda" {
+  function_name = "lambda_function_name"
+  role          = aws_aim_role.iam_for_lambda.arn
+
+  environment {
+    variables = {
+      foo = "bar"
     }
+  }
 }
