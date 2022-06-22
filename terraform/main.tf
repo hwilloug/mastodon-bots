@@ -11,7 +11,6 @@ terraform {
 
 provider "aws" {
   region  = "us-east-2"
-  profile = "default"
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
