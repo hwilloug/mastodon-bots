@@ -1,3 +1,7 @@
+locals {
+  source_dir = "../bots/gpu_bot"
+}
+
 terraform {
   required_providers {
     aws = {
@@ -33,17 +37,17 @@ resource "aws_iam_role" "iam_for_lambda" {
 EOF
 }
 
-data "archive_file" "python_lambda_pachage" {
+data "archive_file" "gpu_bot_lambda_package" {
   type        = "zip"
-  source_file = "../bots/gpu_bot/lambda_function.py"
-  output_path = "nametest.zip"
+  source_dir  = local.source_dir
+  output_path = "lambda-pkg.zip"
 }
 
-resource "aws_lambda_function" "test_lambda" {
-  function_name = "lambda_function_name"
+resource "aws_lambda_function" "gpu_bot_lambda" {
+  function_name = "gpu_bot_lambda"
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "lambda_function.lambda_handler"
-  filename      = "nametest.zip"
+  filename      = "lambda-pkg.zip"
 
   runtime = "python3.9"
 
