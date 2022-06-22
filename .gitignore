@@ -1,2 +1,6 @@
+*.zip
+
+*.env
+
 terraform/.terraform*
 terraform/terraform.*
