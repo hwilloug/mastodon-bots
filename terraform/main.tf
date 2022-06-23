@@ -42,15 +42,15 @@ EOF
 data "archive_file" "gpu_bot_lambda_package" {
   type        = "zip"
   source_dir  = local.source_dir
-  output_path = "lambda-pkg.zip"
+  output_path = "lambda_pkg.zip"
 }
 
 resource "aws_lambda_function" "gpu_bot_lambda" {
   function_name    = "gpu_bot_lambda"
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "lambda_function.lambda_handler"
-  filename         = "lambda-pkg.zip"
-  source_code_hash = filebase64sha256("lambda-pkg.zip")
+  filename         = gpu_bot_lambda_package.output_path
+  source_code_hash = filebase64sha256("lambda_pkg.zip")
 
   runtime = "python3.9"
 
