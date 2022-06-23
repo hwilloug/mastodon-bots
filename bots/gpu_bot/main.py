@@ -14,12 +14,12 @@ def run():
             m.toot("THESE GPUS ARE NOW AVAILABLE!\n\n" + '\n'.join(products_toots))
 
         return {
-                'status_code': 200
+                'statusCode': 200
             }
 
     except Exception as err:
         return {
-                'status_code': 500,
+                'statusCode': 500,
                 'error': err
             }
 
