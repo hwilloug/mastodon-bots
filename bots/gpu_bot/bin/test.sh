@@ -1,4 +1,4 @@
 #!/bin/bash
 
 poetry install
-poetry run pytest
+poetry run pytest -s
