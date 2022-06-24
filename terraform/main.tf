@@ -19,38 +19,39 @@ provider "aws" {
   region = "us-east-2"
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
+data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
+  statement {
+    actions    = ["sts:AssumeRole"]
+    effect     = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
     }
-  ]
+  }
 }
-EOF
+
+resource "aws_iam_role" "terraform_function_role" {
+  name               = "terraform_function_role"
+  assume_role_policy = data.aws_iam_policy_document.AWSLambdaTrustPolicy.json 
+}
+
+resource "aws_iam_role_policy_attachment" "terraform_lambda_policy" {
+  role       = aws_iam_role.terraform_function_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 data "archive_file" "gpu_bot_lambda_package" {
-  type        = "zip"
-  source_dir  = local.source_dir
-  output_path = "lambda_pkg.zip"
+  type             = "zip"
+  source_file      = "../bots/gpu_bot/main.py"
+  output_path      = "lambda.zip"
 }
 
 resource "aws_lambda_function" "gpu_bot_lambda" {
   function_name    = "gpu_bot_lambda"
-  role             = aws_iam_role.iam_for_lambda.arn
+  role             = aws_iam_role.terraform_function_role.arn
   handler          = "lambda_function.lambda_handler"
-  filename         = archive_file.gpu_bot_lambda_package.output_path
-  source_code_hash = filebase64sha256("lambda_pkg.zip")
+  filename         = "lambda.zip"
+  source_code_hash = data.archive_file.gpu_bot_lambda_package.output_base64sha256
 
   runtime = "python3.9"
 
