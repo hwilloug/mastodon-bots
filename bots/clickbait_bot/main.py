@@ -1,13 +1,17 @@
 import os
 
 from mastodon import Mastodon
+import requests
 
 def run():
     try:
+        
+        url = "https://clickbait-generator.herokuapp.com/api"
+        response = requests.get(url).json()
 
         if os.environ.get('SEND_TOOTS', True):
             m, mastodon_api_key = _get_mastodon_api_token()
-            #m.toot("Hello, world! It's me, Test Bot!")
+            m.toot(response['title'])
 
         return {
                 'statusCode': 200
