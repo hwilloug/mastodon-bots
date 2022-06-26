@@ -19,13 +19,13 @@ provider "aws" {
 }
 
 module "gpu_bot" {
-  source = "./modules/bot_lambda"
-  source_file   = "../bots/gpu_bot"
+  source      = "./modules/bot_lambda"
+  source_file = "../bots/gpu_bot"
 
 
   bot_email     = var.MASTODON_EMAIL
   bot_password  = var.MASTODON_PASSWORD
-  bot_version   = 0.1.0
+  bot_version   = "0.1.0"
   function_name = "gpu_bot"
 
   environment {
