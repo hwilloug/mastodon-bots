@@ -38,13 +38,34 @@ resource "aws_lambda_function" "gpu_bot_lambda" {
 
   environment {
     variables = {
-      "BESTBUY_API_KEY" : var.BESTBUY_API_KEY
+      "BESTBUY_API_KEY" : aws_ssm_parameter.bestbuy_api_key.value
       "BOT_VERSION" : var.bot_version
       "MASTODON_BASE_URL" : var.mastodon_url
       "MASTODON_EMAIL" : var.bot_email
       "MASTODON_PASSWORD" : var.bot_password
-      "MASTODON_CLIENT_ID" : var.MASTODON_CLIENT_ID
-      "MASTODON_CLIENT_SECRET" : var.MASTODON_CLIENT_SECRET
+      "MASTODON_CLIENT_ID" : aws_ssm_parameter.mastodon_client_id.value
+      "MASTODON_CLIENT_SECRET" : aws_ssm_parameter.mastodon_client_secret.value
     }
   }
+}
+
+resource "aws_ssm_parameter" "bestbuy_api_key" {
+  name        = "BESTBUY_API_KEY"
+  description = ""
+  type        = "SecureString"
+  value       = var.BESTBUY_API_KEY
+}
+
+resource "aws_ssm_parameter" "mastodon_client_id" {
+  name        = "MASTODON_CLIENT_ID"
+  description = ""
+  type        = "SecureString"
+  value       = var.MASTODON_CLIENT_ID
+}
+
+resource "aws_ssm_parameter" "mastodon_client_secret" {
+  name        = "MASTODON_CLIENT_SECRET"
+  description = ""
+  type        = "SecureString"
+  value       = var.MASTODON_CLIENT_SECRET
 }
