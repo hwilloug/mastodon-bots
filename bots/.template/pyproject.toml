@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "clickbait_bot"
+name = "template_project"
 version = "0.1.0"
 description = ""
 authors = ["Hannah Willoughby <hannah@hannahwilloughby.dev>"]
