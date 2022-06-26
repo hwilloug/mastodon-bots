@@ -14,11 +14,11 @@ provider "aws" {
 }
 
 data "aws_ssm_parameter" "gpu_bot_email" {
-  name        = "GPU_BOT_EMAIL"
+  name = "GPU_BOT_EMAIL"
 }
 
 data "aws_ssm_parameter" "gpu_bot_password" {
-  name        = "GPU_BOT_PASSWORD"
+  name = "GPU_BOT_PASSWORD"
 }
 
 module "gpu_bot" {
