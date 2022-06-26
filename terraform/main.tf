@@ -19,6 +19,36 @@ provider "aws" {
   region = "us-east-2"
 }
 
+variable "BESTBUY_API_KEY" {
+  type        = string
+  default     = ""
+  description = "Key for the Best Buy API"
+}
+
+variable "MASTODON_EMAIL" {
+  type        = string
+  default     = ""
+  description = "Email of account for bot"
+}
+
+variable "MASTODON_PASSWORD" {
+  type        = string
+  default     = ""
+  description = "Password of account for bot"
+}
+
+variable "MASTODON_CLIENT_ID" {
+  type        = string
+  default     = ""
+  description = "Mastodon Client ID"
+}
+
+variable "MASTODON_CLIENT_SECRET" {
+  type        = string
+  default     = ""
+  description = "Mastodon Client Secret"
+}
+
 data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -61,6 +91,11 @@ resource "aws_lambda_function" "gpu_bot_lambda" {
     variables = {
       "BOT_VERSION" : local.version
       "MASTODON_BASE_URL" : local.url
+      "BESTBUY_API_KEY" : var.BESTBUY_API_KEY
+      "MASTODON_EMAIL" : var.MASTODON_EMAIL
+      "MASTODON_PASSWORD" : var.MASTODON_PASSWORD
+      "MASTODON_CLIENT_ID" : var.MASTODON_CLIENT_ID
+      "MASTODON_CLIENT_SECRET" : var.MASTODON_CLIENT_SECRET
     }
   }
 }
