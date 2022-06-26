@@ -96,36 +96,23 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.13
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: './terraform'
-        tf_actions_comment: true
+      run: terraform plan -input=false
+      working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_BESTBUY_API_KEY : ${{ secrets.BESTBUY_API_KEY }}
-        TF_VAR_MASTODON_EMAIL: ${{ secrets.MASTODON_EMAIL }}
-        TF_VAR_MASTODON_PASSWORD: ${{ secrets.MASTODON_PASSWORD }}
-        TF_VAR_MASTODON_CLIENT_ID: ${{ secrets.MASTODON_CLIENT_ID }}
-        TF_VAR_MASTODON_CLIENT_SECRET: ${{ secrets.MASTODON_CLIENT_SECRET }}
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.13
-        tf_actions_subcommand: 'apply'
-        tf_actions_working_dir: './terraform'
-        tf_actions_comment: true
+      run: terraform apply -auto-approve -input=false
+      working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_BESTBUY_API_KEY : ${{ secrets.BESTBUY_API_KEY }}
-        TF_VAR_MASTODON_EMAIL: ${{ secrets.MASTODON_EMAIL }}
-        TF_VAR_MASTODON_PASSWORD: ${{ secrets.MASTODON_PASSWORD }}
-        TF_VAR_MASTODON_CLIENT_ID: ${{ secrets.MASTODON_CLIENT_ID }}
-        TF_VAR_MASTODON_CLIENT_SECRET: ${{ secrets.MASTODON_CLIENT_SECRET }}
+        BESTBUY_API_KEY : ${{ secrets.TF_BESTBUY_API_KEY }}
+        MASTODON_EMAIL: ${{ secrets.TF_MASTODON_EMAIL }}
+        MASTODON_PASSWORD: ${{ secrets.MASTODON_PASSWORD }}
+        MASTODON_CLIENT_ID: ${{ secrets.TF_MASTODON_CLIENT_ID }}
+        MASTODON_CLIENT_SECRET: ${{ secrets.TF_MASTODON_CLIENT_SECRET }}
