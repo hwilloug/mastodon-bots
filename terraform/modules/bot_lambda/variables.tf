@@ -1,3 +1,9 @@
+variable "BESTBUY_API_KEY" {
+  type        = string
+  default     = ""
+  description = "Key for the Best Buy API"
+}
+
 variable "bot_email" {
     type        = string
     default     = ""
@@ -22,16 +28,22 @@ variable "function_name" {
     description = "Name of the lambda function"
 }
 
-variable "MASTODON_EMAIL" {
+variable "MASTODON_CLIENT_ID" {
   type        = string
   default     = ""
-  description = "Email of account for bot"
+  description = "Mastodon Client ID"
 }
 
-variable "MASTODON_PASSWORD" {
+variable "MASTODON_CLIENT_SECRET" {
   type        = string
   default     = ""
-  description = "Password of account for bot"
+  description = "Mastodon Client Secret"
+}
+
+variable "mastodon_url" {
+  type        = string
+  default     = ""
+  description = "Mastodon URL"
 }
 
 variable "source_file" {

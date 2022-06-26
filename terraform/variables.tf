@@ -1,17 +1,11 @@
-variable "BESTBUY_API_KEY" {
+variable "GPU_BOT_EMAIL" {
   type        = string
   default     = ""
-  description = "Key for the Best Buy API"
+  description = "Gpu bot email"
 }
 
-variable "MASTODON_CLIENT_ID" {
+variable "GPU_BOT_PASSWORD" {
   type        = string
   default     = ""
-  description = "Mastodon Client ID"
-}
-
-variable "MASTODON_CLIENT_SECRET" {
-  type        = string
-  default     = ""
-  description = "Mastodon Client Secret"
+  description = "Gpu bot password"
 }

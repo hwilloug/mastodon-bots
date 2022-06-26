@@ -1,8 +1,3 @@
-locals {
-  source_dir = "../bots/gpu_bot"
-  url        = "https://tavern.antinet.work"
-}
-
 terraform {
   required_providers {
     aws = {
@@ -20,17 +15,11 @@ provider "aws" {
 
 module "gpu_bot" {
   source      = "./modules/bot_lambda"
-  source_file = "../bots/gpu_bot"
+  source_file = "../bots/gpu_bot/main.py"
 
-
-  bot_email     = var.MASTODON_EMAIL
-  bot_password  = var.MASTODON_PASSWORD
+  bot_email     = var.GPU_BOT_EMAIL
+  bot_password  = var.GPU_BOT_PASSWORD
   bot_version   = "0.1.0"
   function_name = "gpu_bot"
-
-  environment {
-    variables = {
-      "BESTBUY_API_KEY" : var.BESTBUY_API_KEY
-    }
-  }
+  mastodon_url  = "https://tavern.antinet.work"
 }
