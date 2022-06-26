@@ -21,8 +21,8 @@ provider "aws" {
 
 data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
   statement {
-    actions    = ["sts:AssumeRole"]
-    effect     = "Allow"
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
 
 resource "aws_iam_role" "terraform_function_role" {
   name               = "terraform_function_role"
-  assume_role_policy = data.aws_iam_policy_document.AWSLambdaTrustPolicy.json 
+  assume_role_policy = data.aws_iam_policy_document.AWSLambdaTrustPolicy.json
 }
 
 resource "aws_iam_role_policy_attachment" "terraform_lambda_policy" {
@@ -41,9 +41,9 @@ resource "aws_iam_role_policy_attachment" "terraform_lambda_policy" {
 }
 
 data "archive_file" "gpu_bot_lambda_package" {
-  type             = "zip"
-  source_file      = "../bots/gpu_bot/main.py"
-  output_path      = "lambda.zip"
+  type        = "zip"
+  source_file = "../bots/gpu_bot/main.py"
+  output_path = "lambda.zip"
 }
 
 resource "aws_lambda_function" "gpu_bot_lambda" {
