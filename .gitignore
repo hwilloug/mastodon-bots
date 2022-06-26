@@ -4,3 +4,7 @@
 
 terraform/.terraform*
 terraform/terraform.*
+
+*__pycache__
+*poetry.lock
+*.pytest_cache
