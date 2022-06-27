@@ -31,6 +31,10 @@ resource "aws_lambda_function" "gpu_bot_lambda" {
   handler          = "main.run"
   filename         = "${var.function_name}-lambda.zip"
   source_code_hash = data.archive_file.lambda_package.output_base64sha256
+  layers           = [
+    "arn:aws:lambda:us-east-2:132507767948:layer:requestsLayer:1",
+    "arn:aws:lambda:us-east-2:132507767948:layer:mastodonLayer:1"
+  ]
 
   runtime = "python3.9"
 

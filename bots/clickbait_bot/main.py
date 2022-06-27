@@ -1,9 +1,10 @@
+import json
 import os
 
 from mastodon import Mastodon
 import requests
 
-def run():
+def run(event, context):
     try:
         
         url = "https://clickbait-generator.herokuapp.com/api"
@@ -13,15 +14,15 @@ def run():
             m, mastodon_api_key = _get_mastodon_api_token()
             m.toot(response['title'])
 
-        return {
+        return json.dumps({
                 'statusCode': 200
-            }
+            })
 
     except Exception as err:
-        return {
+        return json.dumps({
                 'statusCode': 500,
-                'error': err
-            }
+                'error': str(err)
+            })
 
 def _get_mastodon_api_token():
     m = Mastodon(

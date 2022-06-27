@@ -4,7 +4,7 @@ import os
 from mastodon import Mastodon
 import requests
 
-def run():
+def run(event, context):
     try:
 
         products, products_toots = _get_available_products()
@@ -13,15 +13,15 @@ def run():
             m, mastodon_api_key = _get_mastodon_api_token()
             m.toot("THESE GPUS ARE NOW AVAILABLE!\n\n" + '\n'.join(products_toots))
 
-        return {
+        return json.dumps({
                 'statusCode': 200
-            }
+            })
 
     except Exception as err:
-        return {
+        return json.dumps({
                 'statusCode': 500,
-                'error': err
-            }
+                'error': str(err)
+            })
 
 def _get_mastodon_api_token():
     m = Mastodon(

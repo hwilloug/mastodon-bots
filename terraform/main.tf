@@ -21,6 +21,14 @@ data "aws_ssm_parameter" "gpu_bot_password" {
   name = "GPU_BOT_PASSWORD"
 }
 
+data "aws_ssm_parameter" "clickbait_bot_email" {
+  name = "clickbait_bot_email"
+}
+
+data "aws_ssm_parameter" "clickbait_bot_password" {
+  name = "clickbait_bot_password"
+}
+
 module "gpu_bot" {
   source      = "./modules/bot_lambda"
   source_file = "../bots/gpu_bot/main.py"
@@ -36,8 +44,8 @@ module "clickbait_bot" {
   source      = "./modules/bot_lambda"
   source_file = "../bots/clickbait_bot/main.py"
 
-  #bot_email     = data.aws_ssm_parameter.gpu_bot_email.value
-  #bot_password  = data.aws_ssm_parameter.gpu_bot_password.value
+  bot_email     = data.aws_ssm_parameter.clickbait_bot_email.value
+  bot_password  = data.aws_ssm_parameter.clickbait_bot_password.value
   bot_version   = "0.1.0"
   function_name = "clickbait_bot"
   mastodon_url  = "https://tavern.antinet.work"
