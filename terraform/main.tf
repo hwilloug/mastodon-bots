@@ -31,3 +31,14 @@ module "gpu_bot" {
   function_name = "gpu_bot"
   mastodon_url  = "https://tavern.antinet.work"
 }
+
+module "clickbait_bot" {
+  source      = "./modules/bot_lambda"
+  source_file = "../bots/clickbait_bot/main.py"
+
+  #bot_email     = data.aws_ssm_parameter.gpu_bot_email.value
+  #bot_password  = data.aws_ssm_parameter.gpu_bot_password.value
+  bot_version   = "0.1.0"
+  function_name = "clickbait_bot"
+  mastodon_url  = "https://tavern.antinet.work"
+}
