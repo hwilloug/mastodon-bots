@@ -25,7 +25,7 @@ data "archive_file" "lambda_package" {
   output_path = "${var.function_name}-lambda.zip"
 }
 
-resource "aws_lambda_function" "gpu_bot_lambda" {
+resource "aws_lambda_function" "lambda" {
   function_name    = var.function_name
   role             = aws_iam_role.terraform_function_role.arn
   handler          = "main.run"
@@ -53,6 +53,24 @@ resource "aws_lambda_function" "gpu_bot_lambda" {
   }
 }
 
+resource "aws_cloudwatch_event_rule" "bot_schedule" {
+  name                = "${var.function_name}_job"
+  description         = "${var.function_name} trigger"
+  schedule_expression = "cron(${var.cron_schedule})"
+}
+
+resource "aws_cloudwatch_event_target" "bot_target" {
+  rule      = aws_cloudwatch_event_rule.bot_schedule.name
+  arn       = aws_lambda_function.lambda.arn
+}
+
+resource "aws_lambda_permission" "bot_schedule_permission" {
+  statement_id = "AllowExecutionFromCloudwatch"
+  action       = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.bot_schedule.arn
+}
 data "aws_ssm_parameter" "bestbuy_api_key" {
   name        = "BESTBUY_API_KEY"
 }

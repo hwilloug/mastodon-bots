@@ -22,6 +22,12 @@ variable "bot_version" {
     description = "Version of bot"
 }
 
+variable "cron_schedule" {
+    type        = string
+    default     = "0 12 * * ? *"
+    description = "Cron schedule to run the lambda on"
+}
+
 variable "function_name" {
     type        = string
     default     = "0.0.1"
