@@ -10,8 +10,16 @@ the following things need to be installed on your computer for ease of developme
 - poetry
 
 
+Create an `.env` file that contains: 
+
+- `MASTODON_EMAIL` - email of bot account
+- `MASTODON_PASSWORD` - password of bot account
+- `MASTODON_CLIENT_ID` - mastodon client id
+- `MASTODON_CLIENT_SECRET` - mastodon client secret
+
+
 To run the bot, simply execute:
 
 ```
-./run.sh
+./bin/run.sh
 ```

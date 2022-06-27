@@ -1,23 +1,24 @@
+import json
 import os
 
 from mastodon import Mastodon
 
-def run():
+def run(event, context):
     try:
 
         if os.environ.get('SEND_TOOTS', True):
             m, mastodon_api_key = _get_mastodon_api_token()
             #m.toot("Hello, world! It's me, Test Bot!")
 
-        return {
+        return json.dumps({
                 'statusCode': 200
-            }
+            })
 
     except Exception as err:
-        return {
+        return json.dumps({
                 'statusCode': 500,
-                'error': err
-            }
+                'error': str(err)
+            })
 
 def _get_mastodon_api_token():
     m = Mastodon(
